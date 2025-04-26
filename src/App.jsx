@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar.jsx';
-import Home from './pages/Home.jsx';
-import SongList from './pages/SongList.jsx';
-import Karaoke from './pages/Karaoke.jsx';
-import Result from './pages/Result.jsx';
+import Home from './pages/home.jsx';
+import SongList from './pages/songList.jsx';
+import Karaoke from './pages/karaoke.jsx';
+import Result from './pages/result.jsx';
 
 function App() {
   return (
