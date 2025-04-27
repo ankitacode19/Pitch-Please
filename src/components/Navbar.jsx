@@ -16,6 +16,9 @@ export default function Navbar() {
         <Link to="/karaoke" className="text-white hover:underline hover:scale-105 transition-all">
           Karaoke
         </Link>
+        <Link to="/result" className="text-white hover:underline hover:scale-105 transition-all">
+          Result
+        </Link>
       </div>
     </nav>
   )
