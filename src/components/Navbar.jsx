@@ -14,11 +14,9 @@ export default function Navbar() {
           Songs
         </Link>
         <Link to="/karaoke" className="text-white hover:underline hover:scale-105 transition-all">
-          Karaoke
+          Random Fact
         </Link>
-        <Link to="/result" className="text-white hover:underline hover:scale-105 transition-all">
-          Result
-        </Link>
+        
       </div>
     </nav>
   )
