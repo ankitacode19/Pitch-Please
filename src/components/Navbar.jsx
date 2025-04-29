@@ -7,7 +7,7 @@ export default function Navbar() {
         🎤 Pitch Please
       </div>
       <div className="flex space-x-6">
-        <Link to="/homee" className="text-white hover:underline hover:scale-105 transition-all">
+        <Link to="/Home" className="text-white hover:underline hover:scale-105 transition-all">
           Home
         </Link>
         <Link to="/songs" className="text-white hover:underline hover:scale-105 transition-all">
