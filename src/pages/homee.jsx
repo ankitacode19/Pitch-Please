@@ -12,7 +12,7 @@ export default function Home() {
           and see how pitch-perfect your vocals truly are.
         </p>
         <Link to="/songs">
-          <button className="home-button">Get Singing 🎶</button>
+          <button className="home-button">Get Singing</button>
         </Link>
       </div>
     </div>
