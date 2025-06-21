@@ -1,22 +1,31 @@
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function SongList() {
-  const navigate = useNavigate()
+  const [songs, setSongs] = useState([])
 
-  const handleSelect = () => {
-    // dummy navigation until we use real song data
-    navigate('/karaoke')
-  }
+  useEffect(() => {
+    fetch('http://localhost:5000/songs')
+      .then(res => res.json())
+      .then(data => setSongs(data))
+      .catch(err => console.error('Error fetching songs:', err))
+  }, [])
 
   return (
-    <div className="p-10 text-white">
-      <h2 className="text-3xl mb-4">Choose Your Track</h2>
-      <button
-        onClick={handleSelect}
-        className="bg-purple-500 px-4 py-2 rounded hover:bg-purple-600 transition"
-      >
-        Start Karaoke
-      </button>
+    <div className="p-8">
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-800">🎵 Choose Your Jam</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {songs.map(song => (
+          <Link
+            key={song.id}
+            to={`/karaoke?id=${song.id}`}
+            className="bg-white p-4 rounded shadow hover:shadow-lg transition duration-300"
+          >
+            <h3 className="text-xl font-semibold text-green-900">{song.title}</h3>
+            <p className="text-green-700">by {song.artist}</p>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }
