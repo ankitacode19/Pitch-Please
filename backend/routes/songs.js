@@ -1,17 +1,33 @@
-const express = require('express')
-const router = express.Router()
-const fs = require('fs')
-const path = require('path')
 
-router.get('/', (req, res) => {
-  const songsPath = path.join(__dirname, '..', 'songs', 'songs.json')
-  fs.readFile(songsPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err)
-      return res.status(500).json({ message: 'Error reading songs file' })
+const express = require('express');
+//const fetch = require('node-fetch');
+const router = express.Router();
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
+router.get('/:artist/:title', async (req, res) => {
+  const { artist, title } = req.params;
+
+  try {
+    const response = await fetch(`https://api.lyrics.ovh/v1/Adele/Hello`);
+    const data = await response.json();
+
+    if (data.lyrics) {
+      const lyricsArray = data.lyrics
+        .split('\n')
+        .filter(line => line.trim() !== '');
+        
+      res.json({
+        artist,
+        title,
+        lyrics: lyricsArray,
+      });
+    } else {
+      res.status(404).json({ error: 'Lyrics not found' });
     }
-    res.json(JSON.parse(data))
-  })
-})
+  } catch (err) {
+    res.status(500).json({ error: 'Something broke, sis 😭' });
+  }
+});
 
-module.exports = router
+module.exports = router;
+ 
