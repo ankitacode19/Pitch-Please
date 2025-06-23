@@ -1,23 +1,30 @@
 import { Link } from 'react-router-dom'
+import '../styles/Navbar.css' // optional if you want extra styling
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center p-4 bg-gradient-to-r from-pink-400 to-purple-500 shadow-md">
-      <div className="text-white text-2xl font-bold">
-        🎤 Pitch Please
-      </div>
-      <div className="flex space-x-6">
-        <Link to="/Home" className="text-white hover:underline hover:scale-105 transition-all">
-          Home
-        </Link>
-        <Link to="/songs" className="text-white hover:underline hover:scale-105 transition-all">
-          Songs
-        </Link>
-        <Link to="/karaoke" className="text-white hover:underline hover:scale-105 transition-all">
-          Random Fact
-        </Link>
-        
-      </div>
-    </nav>
+  <header className="header">
+    <h2 className="logo"></h2>
+      <nav class="navigation">
+        <a href="/home">Home</a>
+        <a href="/songs">Songs</a>
+        <a href="/fun">Random Fact</a>
+        <button class="btnLogin-popup">Login</button>
+      </nav>
+
+  </header>
+  )
+}
+
+// Reusable link component with animation
+function NavLink({ to, label }) {
+  return (
+    <Link
+      to={to}
+      className="relative text-[#020402] font-medium hover:text-[#305F2B] transition-all duration-300"
+    >
+      {label}
+      <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#305F2B] transition-all duration-300 group-hover:w-full"></span>
+    </Link>
   )
 }

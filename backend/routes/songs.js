@@ -16,7 +16,7 @@ router.get('/:artist/:title', async (req, res) => {
   const { artist, title } = req.params;
 
   try {
-    const response = await fetch(`https://api.lyrics.ovh/v1/Adele/Hello`);
+    const response = await fetch(`https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`);
     const data = await response.json();
 
     if (data.lyrics) {

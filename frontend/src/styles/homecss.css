@@ -22,8 +22,8 @@ body {
     width: 100vw;
   height: 100vh;
     margin: 0;
-    background: linear-gradient(to bottom right, #86e7f4, #a3f6d3, #7e8bdd);
-    display: flex;
+    background: linear-gradient(to bottom right, #305F2B, #C6DEC6, #A9C5A0);
+    display:flex;
     align-items: center;
     justify-content: center;
     padding: 3rem;
