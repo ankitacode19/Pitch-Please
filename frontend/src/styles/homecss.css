@@ -73,12 +73,13 @@ body {
     z-index: 0;
     
     transform: scaleX(0);
-    transform-origin: left;
+    transform-origin: right;
     transition: transform 0.5s cubic-bezier(.77,0,.18,1);
 }
 
 .home-button:hover::before {
     transform: scaleX(1);
+    
     transform-origin: left;
 }
 
