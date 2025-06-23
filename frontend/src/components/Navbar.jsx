@@ -3,19 +3,21 @@ import '../styles/Navbar.css' // optional if you want extra styling
 
 export default function Navbar() {
   return (
-  <header className="header">
-    <h2 className="logo">Pitch Please</h2>
-      <nav class="navigation">
-        <div className="nav-links">
-        <a href="/home">Home</a>
-        <a href="/songs">Songs</a>
-        <a href="/fun">Random Fact</a>
-        </div>
-        <button class="btnLogin-popup">Login</button>
-      
-      </nav>
+  <header class="navigation">
+  <div class="logo">Pitch Please</div>
 
-  </header>
+  <div class="nav-links-container">
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/songs">Songs</a>
+      <a href="/karaoke">Random Fact</a>
+    </div>
+  </div>
+
+  <div class="login-button-container">
+    <button class="btnLogin-popup">Login</button>
+  </div>
+</header>
   )
 }
 

@@ -1,90 +1,81 @@
-body{
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    
-}
-
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    padding: 20px;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 99;
-}
-
-.logo{
-    font-size:large;
-    display: flex;
-    color: aliceblue;
-    user-select: none;
-}
-
 .navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 60px;
-    background: transparent;
-    
-}
-.navigation a {
-    position: relative;
-    font-size: 1.1em;
-    color: aliceblue;
-    background: transparent !important;
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
 }
 
-.navigation a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 3px;
-    background: aliceblue;
-    border-radius: 5px;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform .5s;
+.logo {
+  flex: 1;
+  font-size: large;
+  color: aliceblue;
+  user-select: none;
 }
 
-.navigation a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
+.nav-links-container {
+  flex: 2;
+  display: flex;
+  justify-content: center;
 }
 
-.navigation .btnLogin-popup{
-    width: 130px;
-    height: 50px;
-    background: transparent;
-    border: 2px solid aliceblue;
-    outline: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    color: aliceblue;
-    font-weight: 500;
-    margin-left: 40px;
-    transition: .5s;
+.nav-links {
+  display: flex;
+  gap: 40px;
 }
 
-.navigation .btnLogin-popup:hover {
-    background: aliceblue;
-    color: #201934;
+.nav-links a {
+  position: relative;
+  font-size: 1.1em;
+  color: aliceblue;
+  text-decoration: none;
+  font-weight: 500;
+}
 
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background: aliceblue;
+  border-radius: 5px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s;
+}
 
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.login-button-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnLogin-popup {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid aliceblue;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: aliceblue;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+.btnLogin-popup:hover {
+  background: aliceblue;
+  color: #201934;
 }
