@@ -6,10 +6,13 @@ export default function Navbar() {
   <header className="header">
     <h2 className="logo">Pitch Please</h2>
       <nav class="navigation">
+        <div className="nav-links">
         <a href="/home">Home</a>
         <a href="/songs">Songs</a>
         <a href="/fun">Random Fact</a>
+        </div>
         <button class="btnLogin-popup">Login</button>
+      
       </nav>
 
   </header>
