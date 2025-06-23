@@ -3,6 +3,14 @@ const express = require('express');
 //const fetch = require('node-fetch');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+router.get('/', (req, res) => {
+  res.json([
+    { id: 1, title: 'Hello', artist: 'Adele' },
+    { id: 2, title: 'Blank Space', artist: 'Taylor Swift' },
+    { id: 3, title: 'Shape of You', artist: 'Ed Sheeran' }
+  ])
+})
+
 
 router.get('/:artist/:title', async (req, res) => {
   const { artist, title } = req.params;
