@@ -20,7 +20,8 @@ header{
 }
 
 .logo{
-    font-size: 2em;
+    font-size:large;
+    display: flex;
     color: aliceblue;
     user-select: none;
 }

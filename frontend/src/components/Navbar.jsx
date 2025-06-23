@@ -4,7 +4,7 @@ import '../styles/Navbar.css' // optional if you want extra styling
 export default function Navbar() {
   return (
   <header className="header">
-    <h2 className="logo"></h2>
+    <h2 className="logo">Pitch Please</h2>
       <nav class="navigation">
         <a href="/home">Home</a>
         <a href="/songs">Songs</a>
