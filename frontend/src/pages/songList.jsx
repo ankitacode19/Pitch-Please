@@ -27,7 +27,7 @@ export default function SongList() {
                 <h3 className="text-xl font-bold text-[#020402] mb-2">{song.title}</h3>
                 <p className="text-[#305F2B] mb-4">by {song.artist}</p>
               </div>
-              <Link to={`/karaoke?id=${song.id}`}>
+              <Link to={`/karaoke?artist=${encodeURIComponent(song.artist)}&title=${encodeURIComponent(song.title)}`}>
                 <button className="bg-[#305F2B] text-white px-4 py-2 rounded hover:bg-[#3a6d2e] transition">
                   Sing Now 🎤
                 </button>

@@ -12,17 +12,17 @@ export default function Karaoke() {
   const title = query.get('title');
 
   useEffect(() => {
-    if (!artist || !title) return;
+  if (!artist || !title) return;
 
-    setSongMeta({ artist, title });
+  setSongMeta({ artist, title });
 
-    fetch(`http://localhost:5000/api/songs/Adele/Hello`)
-      .then(res => res.json())
-      .then(data => {
-        setLyrics(data.lyrics || []);
-      })
-      .catch(err => console.error('Lyrics fetch error:', err));
-  }, [artist, title]);
+  fetch(`http://localhost:5000/api/songs/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`)
+    .then(res => res.json())
+    .then(data => {
+      setLyrics(data.lyrics || []);
+    })
+    .catch(err => console.error('Lyrics fetch error:', err));
+}, [artist, title]);
     console.log("Fetching lyrics for:", artist, title)
 
   return (
