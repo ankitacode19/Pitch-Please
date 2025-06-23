@@ -22,7 +22,7 @@ body {
     width: 100vw;
   height: 100vh;
     margin: 0;
-    background: linear-gradient(to bottom right, #305F2B, #C6DEC6, #A9C5A0);
+    background: linear-gradient(to bottom right, #305F2B, #a9c5a0, #305F2B);
     display:flex;
     align-items: center;
     justify-content: center;
@@ -45,72 +45,53 @@ body {
     font-size: 1.25rem;
     margin-bottom: 2rem;
   }
-  
   .home-button {
-    margin: 100px;
-    padding: 15px 40px;
-    border: none;
-    outline: none;
-    color: #FFF;
-    cursor: pointer;
     position: relative;
+    overflow: hidden;
+    padding: 16px 48px;
+    border: 2px solid #020402;
+    border-radius: 20px;
+    background: transparent;
+    color: #020402;
+    font-size: 1.3em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.5s, border-color 0.5s;
+    outline: none;
+    margin: 40px 0 0 0;
     z-index: 0;
-    border-radius: 12px;
-  }
-  .home-button::after {
-    content: "";
-    z-index: -1;
+}
+
+.home-button::before {
+    content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #333;
     left: 0;
     top: 0;
-    border-radius: 10px;
-  }
-  /* glow */
-  .home-button::before {
-    content: "";
-    background: linear-gradient(
-      45deg,
-      #FF0000, #FF7300, #FFFB00, #48FF00,
-      #00FFD5, #002BFF, #FF00C8, #FF0000
-    );
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 600%;
-    z-index: -1;
-    width: calc(100% + 4px);
-    height:  calc(100% + 4px);
-    filter: blur(8px);
-    animation: glowing 20s linear infinite;
-    transition: opacity .3s ease-in-out;
-    border-radius: 10px;
-    opacity: 0;
-  }
-  
-  @keyframes glowing {
-    0% {background-position: 0 0;}
-    50% {background-position: 400% 0;}
-    100% {background-position: 0 0;}
-  }
-  
-  /* hover */
-  .home-button:hover::before {
-    opacity: 1;
-  }
-  
-  .home-button:active:after {
-    background: transparent;
-  }
-  
-  .home-button:active {
-    color: #000;
-    font-weight: bold;
-  }
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top right,#020402,  #305F2B, #020402);
+    z-index: 0;
+    
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(.77,0,.18,1);
+}
 
+.home-button:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
 
+.home-button:hover {
+    color: #c6c6c6;
+    border-color: #c6c6c6;
+    transform-origin: right;
+}
+
+.home-button span {
+    position: relative;
+    z-index: 2;
+}
 
 /* 
 
