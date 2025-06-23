@@ -10,7 +10,7 @@ export default function Navbar() {
     <div class="nav-links">
       <a href="/home">Home</a>
       <a href="/songs">Songs</a>
-      <a href="/karaoke">Random Fact</a>
+      <a href="/fun">Random Fact</a>
     </div>
   </div>
 
