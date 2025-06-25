@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "get-video-id": "^4.1.7",
+    "play-dl": "^1.9.7"
+  }
+}
