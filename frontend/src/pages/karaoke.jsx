@@ -38,12 +38,13 @@ export default function Karaoke() {
       <h2 className="text-4xl font-bold mb-4 text-[#305F2B]">{songMeta.title}</h2>
       <h3 className="text-xl mb-6 text-[#A9C5A0]">by {songMeta.artist}</h3>
 
-      {audioUrl && (
-        <audio controls className="w-full rounded">
-            <source src={`http://localhost:5000/stream/${encodeURIComponent(songMeta.title + " " + songMeta.artist)}`} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-      )}
+      {artist && title && (
+  <audio controls className="w-full rounded">
+  <source src={`http://localhost:5000/api/songs/stream/${encodeURIComponent(songMeta.title + " " + songMeta.artist)}`} type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+)}
+
 
       <div className="bg-white shadow-lg rounded-lg p-6 space-y-3 max-h-[70vh] overflow-y-auto">
         {lyrics.map((line, idx) => (

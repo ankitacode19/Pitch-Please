@@ -1,8 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const ytdl = require('ytdl-core');
-const ytsr = require('yt-search'); // we'll use this to find the video
+const ytsr = require('yt-search'); 
+const playdl = require('play-dl');
+
+router.get('/stream/:query', async (req, res) => {
+  const searchQuery = `${req.params.query} instrumental`;
+  console.log(`[🎶] Searching YouTube for: ${searchQuery}`);
+
+  try {
+    const result = await ytsr(searchQuery);
+    // Find the first result that is a video (has a videoId)
+    const video = result.videos.find(v => v.videoId);
+    console.log('yt-search result:', video);
+
+    // Check for a valid video and URL
+    if (!video || !(video.url || video.videoId)) {
+      return res.status(404).json({ error: 'No instrumental found, sis.' });
+    }
+
+    // Always construct the URL from videoId
+    const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
+
+    const stream = await playdl.stream(videoUrl);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    stream.stream.pipe(res);
+
+  } catch (err) {
+    console.error('[❌] Stream Error:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Could not stream the song 😩' });
+    }
+  }
+});
+
 
 // GET all songs 
 router.get('/', (req, res) => {
@@ -32,31 +63,6 @@ router.get('/:artist/:title', async (req, res) => {
   }
 });
 
-// 🔥 NEW: Stream audio directly using ytdl-core
-router.get('/stream/:query', async (req, res) => {
-  const searchQuery = req.params.query;
 
-  try {
-    // 1. Search YouTube
-    const result = await ytsr(searchQuery);
-    const video = result.videos[0];
-
-    if (!video) {
-      return res.status(404).json({ error: 'No video found for this query' });
-    }
-
-    // 2. Set headers for streaming
-    res.setHeader('Content-Type', 'audio/mpeg');
-
-    // 3. Stream it
-    ytdl(video.url, {
-      filter: 'audioonly',
-      quality: 'highestaudio'
-    }).pipe(res);
-  } catch (err) {
-    console.error('Streaming error:', err);
-    res.status(500).json({ error: 'Streaming failed 💀' });
-  }
-});
 
 module.exports = router;
