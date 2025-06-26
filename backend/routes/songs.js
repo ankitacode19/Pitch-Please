@@ -2,34 +2,42 @@ const express = require('express');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const ytsr = require('yt-search'); 
-const playdl = require('play-dl');
+const { YouTube } = require('tube');
 
 router.get('/stream/:query', async (req, res) => {
   const searchQuery = `${req.params.query} instrumental`;
-  console.log(`[🎶] Searching YouTube for: ${searchQuery}`);
+  console.log(`[🔍] Searching: ${searchQuery}`);
 
   try {
-    const result = await ytsr(searchQuery);
-    // Find the first result that is a video (has a videoId)
-    const video = result.videos.find(v => v.videoId);
-    console.log('yt-search result:', video);
-
-    // Check for a valid video and URL
-    if (!video || !(video.url || video.videoId)) {
-      return res.status(404).json({ error: 'No instrumental found, sis.' });
+    // Search YouTube for the video
+    const yt = new YouTube();
+    const results = await yt.search(searchQuery);
+    const video = results.videos[0];
+    if (!video) {
+      return res.status(404).json({ error: 'No instrumental found, sis 💔' });
     }
 
-    // Always construct the URL from videoId
-    const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
+    console.log('✅ Found video:', video.id, video.title);
 
-    const stream = await playdl.stream(videoUrl);
+    // Get video info and find the best audio format
+    const info = await yt.getVideo(video.id);
+    const audioFormat = info.formats
+      .filter(f => f.mimeType && f.mimeType.startsWith('audio/'))
+      .sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0))[0];
+
+    if (!audioFormat || !audioFormat.url) {
+      throw new Error('No audio format available');
+    }
+
     res.setHeader('Content-Type', 'audio/mpeg');
-    stream.stream.pipe(res);
-
+    // Stream the audio
+    const audioRes = await fetch(audioFormat.url);
+    audioRes.body.pipe(res);
+    console.log(`[✅] Streaming via tube.js`);
   } catch (err) {
-    console.error('[❌] Stream Error:', err);
+    console.error('❌ Stream Error:', err);
     if (!res.headersSent) {
-      res.status(500).json({ error: 'Could not stream the song 😩' });
+      res.status(500).json({ error: 'Streaming failed 💀', details: err.message });
     }
   }
 });

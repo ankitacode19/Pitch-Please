@@ -73,6 +73,7 @@
     "unpipe": "^1.0.0",
     "vary": "^1.1.2",
     "wrappy": "^1.0.2",
+    "youtubei.js": "^14.0.0",
     "yt-dlp-exec": "^1.0.2",
     "yt-search": "^2.13.1",
     "ytdl-core": "^4.11.5",
