@@ -1,44 +1,69 @@
 const express = require('express');
 const router = express.Router();
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const ytsr = require('yt-search'); 
-const { YouTube } = require('tube');
+const ytsr = require('yt-search');
+const fs = require('fs');
+const path = require('path');
+const playdl = require('play-dl');
+const cors = require('cors'); // Add CORS support
 
-router.get('/stream/:query', async (req, res) => {
+// Enable CORS for all routes
+router.use(cors());
+
+// Directory to store instrumentals
+const instrumentsDir = path.join(__dirname, '../instruments');
+if (!fs.existsSync(instrumentsDir)) {
+  fs.mkdirSync(instrumentsDir, { recursive: true });
+}
+
+// Serve static files (so frontend can access downloads)
+router.use('/instruments', express.static(instrumentsDir));
+
+// 🎵 Download instrumental
+router.get('/download/:query', async (req, res) => {
   const searchQuery = `${req.params.query} instrumental`;
-  console.log(`[🔍] Searching: ${searchQuery}`);
+  console.log(`Download request: "${searchQuery}"`);
 
   try {
-    // Search YouTube for the video
-    const yt = new YouTube();
-    const results = await yt.search(searchQuery);
-    const video = results.videos[0];
+    // Search YouTube
+    const result = await ytsr(searchQuery);
+    const video = result.videos[0];
     if (!video) {
-      return res.status(404).json({ error: 'No instrumental found, sis 💔' });
+      return res.status(404).json({ error: 'No instrumental found' });
     }
 
-    console.log('✅ Found video:', video.id, video.title);
+    // Create filename (sanitize)
+    const fileName = `${req.params.query.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.mp3`;
+    const filePath = path.join(instrumentsDir, fileName);
 
-    // Get video info and find the best audio format
-    const info = await yt.getVideo(video.id);
-    const audioFormat = info.formats
-      .filter(f => f.mimeType && f.mimeType.startsWith('audio/'))
-      .sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0))[0];
-
-    if (!audioFormat || !audioFormat.url) {
-      throw new Error('No audio format available');
+    // Skip if already exists
+    if (fs.existsSync(filePath)) {
+      return res.json({ 
+        message: 'Already downloaded', 
+        file: `/instruments/${fileName}` 
+      });
     }
 
-    res.setHeader('Content-Type', 'audio/mpeg');
-    // Stream the audio
-    const audioRes = await fetch(audioFormat.url);
-    audioRes.body.pipe(res);
-    console.log(`[✅] Streaming via tube.js`);
+    // Download with play-dl
+    const { stream } = await playdl.stream(video.url, { quality: 2 });
+    const writeStream = fs.createWriteStream(filePath);
+    stream.pipe(writeStream);
+
+    writeStream.on('finish', () => {
+      res.json({ 
+        message: 'Download complete', 
+        file: `/instruments/${fileName}` 
+      });
+    });
+
+    writeStream.on('error', (err) => {
+      console.error('File write error:', err);
+      fs.unlinkSync(filePath); // Delete partial file
+      res.status(500).json({ error: 'Failed to save file' });
+    });
+
   } catch (err) {
-    console.error('❌ Stream Error:', err);
-    if (!res.headersSent) {
-      res.status(500).json({ error: 'Streaming failed 💀', details: err.message });
-    }
+    console.error('Download error:', err);
+    res.status(500).json({ error: 'Download failed. Try again later.' });
   }
 });
 
