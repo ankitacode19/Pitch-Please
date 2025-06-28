@@ -35,13 +35,7 @@ router.get('/download/:query', async (req, res) => {
     const fileName = `${req.params.query.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.mp3`;
     const filePath = path.join(instrumentsDir, fileName);
 
-    // Skip if already exists
-    if (fs.existsSync(filePath)) {
-      return res.json({ 
-        message: 'Already downloaded', 
-        file: `/instruments/${fileName}` 
-      });
-    }
+
 
     // Download with play-dl
     const { stream } = await playdl.stream(video.url, { quality: 2 });
